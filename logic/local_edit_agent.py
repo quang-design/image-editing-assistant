@@ -5,31 +5,34 @@ import numpy as np
 import cv2
 from PIL import Image
 from pydantic import BaseModel
-from model.gemini import generate
+from model.gemini import generate,generate_with_schema
+from PIL import Image
+import torch
+from transformers import Owlv2Processor, Owlv2ForObjectDetection
 
 class BoundingBox(BaseModel):
-    x: int
-    y: int
-    width: int
-    height: int
-    label: str = ""
-    confidence: float = 0.0
+    x: float
+    y: float
+    width: float
+    height: float
+    label: str 
+    confidence: float 
 
-class DetectionResult(BaseModel):
-    objects: List[Dict[str, Any]]
+class DetectionPromptResult(BaseModel):
+    name: List[str]
 
 class LocalEditAgent:
     """Handles object detection and local edits like inpainting"""
-    
     def __init__(self, client=None):
-        # Client is not needed since we use the generate functions
-        pass
-    
+        # src: https://huggingface.co/google/owlv2-base-patch16-ensemble
+        self.processor = Owlv2Processor.from_pretrained("google/owlv2-base-patch16-ensemble")
+        self.model = Owlv2ForObjectDetection.from_pretrained("google/owlv2-base-patch16-ensemble")
+
     def process_local_edit(self, image_path: str, prompt: str) -> dict:
         """Process local edit request with object detection and inpainting"""
         try:
             # First detect objects
-            detected_objects = self.detect_objects(image_path, prompt)
+            detected_objects = self.detect_objects_v2(image_path, prompt)
             
             if not detected_objects:
                 return {
@@ -59,66 +62,69 @@ class LocalEditAgent:
                 "message": f"Local edit failed: {str(e)}"
             }
     
-    def detect_objects(self, image_path: str, prompt: str) -> List[BoundingBox]:
-        """Detect objects using Gemini vision"""
+    def detect_objects_v2(self, image_path: str, prompt: str) -> List[BoundingBox]:
+          
+      # Get image dimensions
+      img = Image.open(image_path)
+      img_width, img_height = img.size
+      detection_prompt = f"""
+      Analyze this prompt to identify an object class to be detected based on this request: "{prompt}"
+
+      Look for objects that the user wants to edit, remove, or modify.
+      For each relevant object, provide:
+      - A descriptive name of class
+      Examples:
+      - "remove the person" -> object class is person
+      - "delete the car" -> object class is vehicles  
+      - "remove the person and delete the car" -> two object classes, object class is person and object class is vehicle
+
+      Respond in JSON format:
+      {{"name": ["person","vehicle"]}}
+      """
+      try:
+        response = generate_with_schema(
+            prompt=detection_prompt,
+            schema_class=DetectionPromptResult,
+            system_instruction="You are an object detection assistant. Analyze . Always respond with valid JSON."
+        )
+        print(response)
+        image = Image.open(image_path)
+        result = json.loads(response.strip())
+        list_object_class = result["name"]
+        texts = [["a photo of " + str(object_)] for object_ in list_object_class]
+        inputs = self.processor(text=texts, images=image, return_tensors="pt")
         
-        detection_prompt = f"""
-        Analyze this image and identify objects based on this request: "{prompt}"
-        
-        Look for objects that the user wants to edit, remove, or modify.
-        For each relevant object, provide:
-        - A descriptive name
-        - Bounding box coordinates as percentages of image dimensions
-        - Confidence level (0.0 to 1.0)
-        
-        Format bounding box as [x_percent, y_percent, width_percent, height_percent] 
-        where (x,y) is the top-left corner.
-        
-        Examples:
-        - "remove the person" -> look for people
-        - "delete the car" -> look for vehicles
-        - "edit the background" -> identify background regions
-        
-        Respond in JSON format:
-        {{"objects": [{{"name": "person", "bbox": [25, 30, 20, 40], "confidence": 0.9}}]}}
-        """
-        
-        try:
-            response = generate(
-                prompt=detection_prompt,
-                image=image_path,
-                system_instruction="You are an object detection assistant. Analyze images and identify objects with their locations. Always respond with valid JSON."
-            )
+        with torch.no_grad():
+          outputs = self.model(**inputs)
+
+        # Target image sizes (height, width) to rescale box predictions [batch_size, 2]
+        target_sizes = torch.Tensor([image.size[::-1]])
+        # Convert outputs (bounding boxes and class logits) to Pascal VOC Format (xmin, ymin, xmax, ymax)
+        results = self.processor.post_process_object_detection(outputs=outputs, target_sizes=target_sizes, threshold=0.5)
+        i = 0  # Retrieve predictions for the first image for the corresponding text queries
+        bboxes = []
+        text = texts[i]
+        boxes, scores, labels = results[i]["boxes"], results[i]["scores"], results[i]["labels"]
+        for box, score, label in zip(boxes, scores, labels):
+            bbox = BoundingBox(
+                  x=int(box[0]),
+                  y=int(box[1]),
+                  width=int(abs(box[0] - box[2])),
+                  height=int(abs(box[1] - box[3])),
+                  label=str(label),
+                  confidence=score
+              )
+
+            if (bbox.x >= 0 and bbox.y >= 0 and 
+                bbox.x + bbox.width <= img_width and 
+                bbox.y + bbox.height <= img_height and
+                bbox.width > 0 and bbox.height > 0):
+                bboxes.append(bbox)
             
-            # Parse response manually since we're not using structured output here
-            result = json.loads(response.strip())
-            bboxes = []
-            
-            # Get image dimensions
-            img = Image.open(image_path)
-            img_width, img_height = img.size
-            
-            for obj in result.get("objects", []):
-                bbox_percent = obj.get("bbox", [])
-                if len(bbox_percent) == 4:
-                    bbox = BoundingBox(
-                        x=int(bbox_percent[0] * img_width / 100),
-                        y=int(bbox_percent[1] * img_height / 100),
-                        width=int(bbox_percent[2] * img_width / 100),
-                        height=int(bbox_percent[3] * img_height / 100),
-                        label=obj.get("name", "object"),
-                        confidence=obj.get("confidence", 0.5)
-                    )
-                    # Validate bounding box is within image bounds
-                    if (bbox.x >= 0 and bbox.y >= 0 and 
-                        bbox.x + bbox.width <= img_width and 
-                        bbox.y + bbox.height <= img_height and
-                        bbox.width > 0 and bbox.height > 0):
-                        bboxes.append(bbox)
-            
-            return bboxes
-            
-        except Exception as e:
+            print(f"Detected {text[label]} with confidence {round(score.item(), 3)} at location {box}")
+        return bboxes 
+
+      except Exception as e:
             print(f"Object detection error: {e}")
             return []
     
