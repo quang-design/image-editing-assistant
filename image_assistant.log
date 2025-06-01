@@ -1,0 +1,141 @@
+2025-06-01 19:57:37,832 - __main__ - INFO - Starting Image Editing Assistant
+2025-06-01 19:57:37,833 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-01 19:57:39,594 - __main__ - INFO - Processing user request: Hi...
+2025-06-01 19:57:39,595 - logic.assistant - INFO - Processing request - Image: None, Prompt: Hi...
+2025-06-01 19:57:39,595 - logic.assistant - INFO - Calling router agent to determine action
+2025-06-01 19:57:39,595 - logic.router_agent - INFO - Routing request - Prompt: Hi...
+2025-06-01 19:57:39,595 - logic.router_agent - INFO - Calling Gemini API for request routing
+2025-06-01 19:57:39,595 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 840
+2025-06-01 19:57:39,595 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:57:39,598 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:57:39,598 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:57:41,563 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:57:41,566 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:57:41,566 - model.gemini - INFO - Gemini API call completed successfully - Response length: 20
+2025-06-01 19:57:41,566 - logic.router_agent - INFO - Routing completed - Action determined: ActionType.ANSWER
+2025-06-01 19:57:41,566 - logic.assistant - INFO - Router determined action: ActionType.ANSWER
+2025-06-01 19:57:41,566 - logic.assistant - INFO - Processing ANSWER action
+2025-06-01 19:57:55,397 - __main__ - INFO - Processing user request: how are you?...
+2025-06-01 19:57:55,397 - logic.assistant - INFO - Processing request - Image: None, Prompt: how are you?...
+2025-06-01 19:57:55,397 - logic.assistant - INFO - Calling router agent to determine action
+2025-06-01 19:57:55,397 - logic.router_agent - INFO - Routing request - Prompt: how are you?...
+2025-06-01 19:57:55,397 - logic.router_agent - INFO - Calling Gemini API for request routing
+2025-06-01 19:57:55,397 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 850
+2025-06-01 19:57:55,397 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:57:55,398 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:57:55,398 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:57:56,652 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:57:56,654 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:57:56,654 - model.gemini - INFO - Gemini API call completed successfully - Response length: 20
+2025-06-01 19:57:56,654 - logic.router_agent - INFO - Routing completed - Action determined: ActionType.ANSWER
+2025-06-01 19:57:56,654 - logic.assistant - INFO - Router determined action: ActionType.ANSWER
+2025-06-01 19:57:56,654 - logic.assistant - INFO - Processing ANSWER action
+2025-06-01 19:58:23,389 - __main__ - INFO - User attempting to load image: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png
+2025-06-01 19:58:23,390 - __main__ - INFO - Image loaded successfully: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png
+2025-06-01 19:58:29,251 - __main__ - INFO - Processing user request: what is the image?...
+2025-06-01 19:58:29,251 - logic.assistant - INFO - Processing request - Image: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png, Prompt: what is the image?...
+2025-06-01 19:58:29,251 - logic.assistant - INFO - Calling router agent to determine action
+2025-06-01 19:58:29,251 - logic.router_agent - INFO - Routing request - Prompt: what is the image?...
+2025-06-01 19:58:29,251 - logic.router_agent - INFO - Calling Gemini API for request routing
+2025-06-01 19:58:29,251 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 856
+2025-06-01 19:58:29,251 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:58:29,251 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:58:29,251 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:58:30,383 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:58:30,384 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:58:30,384 - model.gemini - INFO - Gemini API call completed successfully - Response length: 18
+2025-06-01 19:58:30,384 - logic.router_agent - INFO - Routing completed - Action determined: ActionType.INFO
+2025-06-01 19:58:30,384 - logic.assistant - INFO - Router determined action: ActionType.INFO
+2025-06-01 19:58:30,384 - logic.assistant - INFO - Calling info agent for image analysis
+2025-06-01 19:58:30,384 - logic.info_agent - INFO - Starting image analysis for: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png
+2025-06-01 19:58:30,400 - logic.info_agent - INFO - Image loaded successfully - Size: 724x406, Mode: RGB
+2025-06-01 19:58:30,410 - logic.info_agent - INFO - Calling Gemini API for image content analysis
+2025-06-01 19:58:30,411 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: True, Prompt length: 407
+2025-06-01 19:58:30,411 - model.gemini - INFO - Processing image: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png
+2025-06-01 19:58:30,413 - model.gemini - INFO - Image loaded successfully - MIME type: image/png, Size: 473826 bytes
+2025-06-01 19:58:30,413 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:58:30,413 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:58:35,426 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:58:35,429 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:58:35,429 - model.gemini - INFO - Gemini API call completed successfully - Response length: 770
+2025-06-01 19:58:35,429 - logic.info_agent - INFO - Gemini analysis completed successfully
+2025-06-01 19:58:35,429 - logic.assistant - INFO - Info agent completed analysis
+2025-06-01 19:58:35,429 - logic.assistant - INFO - Request processing completed with action: ActionType.INFO
+2025-06-01 19:58:42,674 - __main__ - INFO - Processing user request: make it brighter...
+2025-06-01 19:58:42,674 - logic.assistant - INFO - Processing request - Image: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png, Prompt: make it brighter...
+2025-06-01 19:58:42,674 - logic.assistant - INFO - Calling router agent to determine action
+2025-06-01 19:58:42,674 - logic.router_agent - INFO - Routing request - Prompt: make it brighter...
+2025-06-01 19:58:42,674 - logic.router_agent - INFO - Calling Gemini API for request routing
+2025-06-01 19:58:42,674 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 854
+2025-06-01 19:58:42,674 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:58:42,674 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:58:42,674 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:58:44,934 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:58:44,936 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:58:44,937 - model.gemini - INFO - Gemini API call completed successfully - Response length: 25
+2025-06-01 19:58:44,937 - logic.router_agent - INFO - Routing completed - Action determined: ActionType.GLOBAL_EDIT
+2025-06-01 19:58:44,937 - logic.assistant - INFO - Router determined action: ActionType.GLOBAL_EDIT
+2025-06-01 19:58:44,937 - logic.assistant - INFO - Calling global edit agent
+2025-06-01 19:58:44,937 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 786
+2025-06-01 19:58:44,937 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:58:44,938 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:58:44,938 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:58:46,126 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:58:46,127 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:58:46,127 - model.gemini - INFO - Gemini API call completed successfully - Response length: 18
+2025-06-01 19:58:46,166 - logic.assistant - INFO - Global edit completed successfully
+2025-06-01 19:58:46,167 - logic.assistant - INFO - Request processing completed with action: ActionType.GLOBAL_EDIT
+2025-06-01 19:58:53,639 - __main__ - INFO - Processing user request: bye...
+2025-06-01 19:58:53,639 - logic.assistant - INFO - Processing request - Image: /Users/quang/Downloads/DEV/Image-editing-assistant/test_images/test.png, Prompt: bye...
+2025-06-01 19:58:53,639 - logic.assistant - INFO - Calling router agent to determine action
+2025-06-01 19:58:53,639 - logic.router_agent - INFO - Routing request - Prompt: bye...
+2025-06-01 19:58:53,639 - logic.router_agent - INFO - Calling Gemini API for request routing
+2025-06-01 19:58:53,640 - model.gemini - INFO - Starting Gemini API call - Model: gemini-2.5-flash-preview-05-20, Has image: False, Prompt length: 841
+2025-06-01 19:58:53,640 - model.gemini - INFO - Using structured output with response schema
+2025-06-01 19:58:53,640 - model.gemini - INFO - Making API call to Gemini
+2025-06-01 19:58:53,640 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-06-01 19:58:55,370 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent "HTTP/1.1 200 OK"
+2025-06-01 19:58:55,373 - google_genai.models - INFO - AFC remote call 1 is done.
+2025-06-01 19:58:55,373 - model.gemini - INFO - Gemini API call completed successfully - Response length: 18
+2025-06-01 19:58:55,373 - logic.router_agent - INFO - Routing completed - Action determined: ActionType.QUIT
+2025-06-01 19:58:55,373 - logic.assistant - INFO - Router determined action: ActionType.QUIT
+2025-06-01 19:58:55,374 - logic.assistant - INFO - Request processing completed with action: ActionType.QUIT
+2025-06-01 20:00:25,918 - __main__ - INFO - User requested quit
+2025-06-01 20:00:25,919 - __main__ - INFO - Image Editing Assistant session ended
+2025-06-01 20:02:37,032 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-01 20:03:17,134 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-01 20:03:20,128 - logic.assistant - INFO - Action determined: ActionType.ANSWER
+2025-06-01 20:03:20,128 - logic.assistant - INFO - Processing ANSWER action
+2025-06-01 20:03:40,742 - logic.assistant - INFO - Action determined: ActionType.INFO
+2025-06-01 20:03:40,742 - logic.assistant - INFO - Calling info agent
+2025-06-01 20:03:40,765 - logic.info_agent - INFO - Calling Gemini for image analysis
+2025-06-01 20:03:46,160 - logic.info_agent - INFO - Image analysis completed
+2025-06-01 20:03:46,161 - logic.assistant - INFO - Info agent completed
+2025-06-01 20:03:54,918 - logic.assistant - INFO - Action determined: ActionType.GLOBAL_EDIT
+2025-06-01 20:03:54,919 - logic.assistant - INFO - Calling global edit agent
+2025-06-01 20:03:56,165 - logic.assistant - INFO - Global edit completed
+2025-06-01 20:04:12,721 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-01 20:04:12,721 - logic.assistant - INFO - Calling local edit agent
+2025-06-01 20:04:15,309 - logic.assistant - INFO - Local edit completed
+2025-06-01 20:05:20,173 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-01 20:05:26,766 - logic.assistant - INFO - Action determined: ActionType.ANSWER
+2025-06-01 20:05:26,767 - logic.assistant - INFO - Processing ANSWER action
+2025-06-01 20:05:52,097 - logic.assistant - INFO - Action determined: ActionType.INFO
+2025-06-01 20:05:52,098 - logic.assistant - INFO - Calling info agent
+2025-06-01 20:05:52,130 - logic.info_agent - INFO - Calling Gemini for image analysis
+2025-06-01 20:05:57,785 - logic.info_agent - INFO - Image analysis completed
+2025-06-01 20:05:57,786 - logic.assistant - INFO - Info agent completed
+2025-06-01 20:06:04,992 - logic.assistant - INFO - Action determined: ActionType.GLOBAL_EDIT
+2025-06-01 20:06:04,992 - logic.assistant - INFO - Calling global edit agent
+2025-06-01 20:06:06,227 - logic.assistant - INFO - Global edit completed
+2025-06-01 20:06:16,511 - logic.assistant - INFO - Action determined: ActionType.GLOBAL_EDIT
+2025-06-01 20:06:16,511 - logic.assistant - INFO - Calling global edit agent
+2025-06-01 20:06:17,963 - logic.assistant - INFO - Global edit completed
+2025-06-01 20:06:44,398 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-01 20:06:44,398 - logic.assistant - INFO - Calling local edit agent
+2025-06-01 20:06:47,210 - logic.assistant - INFO - Local edit completed
+2025-06-01 20:06:51,608 - logic.assistant - INFO - Action determined: ActionType.QUIT
+2025-06-01 20:14:24,095 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-01 20:14:26,700 - logic.assistant - INFO - Action determined: ActionType.ANSWER
+2025-06-01 20:14:26,701 - logic.assistant - INFO - Processing ANSWER action
+2025-06-01 20:14:29,337 - logic.assistant - INFO - Action determined: ActionType.QUIT
