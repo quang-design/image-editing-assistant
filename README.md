@@ -9,7 +9,6 @@ A modular Python application that uses Google's Gemini API to perform intelligen
 - 🌈 **Global Edits**: Brightness, contrast, saturation, and color temperature adjustments
 - 🎯 **Local Edits**: Object detection and inpainting for targeted modifications
 - 💬 **Chat-based Editing**: Interactive conversational editing sessions
-- 📁 **Modular Design**: Clean separation of concerns with individual agent files
 
 ## Quick Start
 
@@ -18,7 +17,7 @@ A modular Python application that uses Google's Gemini API to perform intelligen
 ```bash
 # Clone or download the project files
 # Install dependencies using UV (Python package manager)
-uv pip install -r requirements.txt
+uv sync
 ```
 
 ### 2. Configuration
@@ -33,36 +32,16 @@ GEMINI_API_KEY="your_actual_api_key_here"
 # Gemini API information: https://gemini.readthedocs.io/en/latest/
 ```
 
-### 3. Usage
-
-```python
-from assistant import ImageEditingAssistant
-
-# Initialize the assistant
-assistant = ImageEditingAssistant()
-
-# Basic image editing
-result = assistant.process_request("image.jpg", "Make it brighter and more vibrant")
-print(f"Edited image saved: {result['edited_image']}")
-
-# Image analysis
-result = assistant.process_request("image.jpg", "What's in this image?")
-print(result['data']['analysis'])
-
-# Object removal
-result = assistant.process_request("image.jpg", "Remove the person in the background")
-```
-
 ### Running Scripts
 
 This project uses `uv` for Python package management. When running Python scripts or managing dependencies, use `uv run` commands:
 
 ```bash
 # Run the main script
-uv run python main.py
+uv run main.py
 
 # Run other scripts
-uv run python your_script.py
+uv run your_script.py
 ```
 
 ## Agent Architecture
@@ -94,9 +73,3 @@ uv run python your_script.py
 - Performs targeted edits on specific objects or regions
 - Handles object detection, selection, and manipulation
 - Supports inpainting for object removal and replacement
-
-### Advanced Agent
-
-- Handles complex multi-step editing operations
-- Supports conversational editing sessions
-- Provides structured analysis and specialized editing techniques
