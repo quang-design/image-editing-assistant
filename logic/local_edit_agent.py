@@ -25,7 +25,8 @@ class DetectionPromptResult(BaseModel):
     name: List[str]
     action_prompt: List[str]
 
-
+from diffusers import StableDiffusionXLImg2ImgPipeline
+from diffusers.utils import load_image
 
 class LocalEditAgent:
     """Handles object detection and local edits like inpainting"""
@@ -33,10 +34,13 @@ class LocalEditAgent:
 
         self.processor = Owlv2Processor.from_pretrained("google/owlv2-base-patch16-ensemble")
         self.model = Owlv2ForObjectDetection.from_pretrained("google/owlv2-base-patch16-ensemble")
+     
         self.pipe_pix2pix = StableDiffusionInstructPix2PixPipeline.from_pretrained("timbrooks/instruct-pix2pix", torch_dtype=torch.float16, safety_checker=None)
         self.pipe_pix2pix.to("cuda")
         self.pipe_pix2pix.scheduler = EulerAncestralDiscreteScheduler.from_config( self.pipe_pix2pix.scheduler.config)
-
+  
+        self.pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained("stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True)
+        self.pipe = self.pipe.to("cuda")
 
     """
     def __init__(self, client=None):
@@ -172,21 +176,24 @@ class LocalEditAgent:
                 
                 # Crop the region using PIL
                 img_bbox = img_pil.crop((int(x), int(y), int(x+width), int(y+height)))
-                
+
                 # Apply the diffusion model
+              
                 images = self.pipe_pix2pix(
                     bounding_box.action_prompt, 
                     image=img_bbox, 
                     num_inference_steps=10, 
                     image_guidance_scale=1
                 ).images
-                
+           
+
+
                 # Paste the edited region back
                 img_pil.paste(images[0], (int(x), int(y)))
                 print(f"Applied edit for: {bounding_box.action_prompt}")
 
 
-
+            img_pil = self.pipe("make this image more realistic", image=img_pil).images[0]
             # Save the result
             task_name = "detect_inpaint_"
             base_name, ext = os.path.splitext(image_path)
