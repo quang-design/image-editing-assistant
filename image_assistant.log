@@ -139,3 +139,30 @@
 2025-06-01 20:14:26,700 - logic.assistant - INFO - Action determined: ActionType.ANSWER
 2025-06-01 20:14:26,701 - logic.assistant - INFO - Processing ANSWER action
 2025-06-01 20:14:29,337 - logic.assistant - INFO - Action determined: ActionType.QUIT
+2025-06-05 20:38:37,033 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-05 20:39:04,804 - logic.assistant - INFO - Action determined: ActionType.ANSWER
+2025-06-05 20:39:04,806 - logic.assistant - INFO - Processing ANSWER action
+2025-06-05 20:39:29,027 - logic.assistant - INFO - Action determined: ActionType.INFO
+2025-06-05 20:39:29,027 - logic.assistant - INFO - Calling info agent
+2025-06-05 20:39:29,077 - logic.info_agent - INFO - Calling Gemini for image analysis
+2025-06-05 20:39:34,901 - logic.info_agent - INFO - Image analysis completed
+2025-06-05 20:39:34,901 - logic.assistant - INFO - Info agent completed
+2025-06-05 20:39:54,769 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-05 20:39:54,769 - logic.assistant - INFO - Calling local edit agent
+2025-06-05 20:40:02,222 - logic.assistant - INFO - Local edit completed
+2025-06-05 20:40:32,762 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-05 20:40:32,763 - logic.assistant - INFO - Calling local edit agent
+2025-06-05 20:40:37,315 - logic.assistant - INFO - Local edit completed
+2025-06-05 20:41:46,964 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-05 20:41:58,370 - logic.assistant - INFO - Action determined: ActionType.INFO
+2025-06-05 20:41:58,370 - logic.assistant - INFO - Calling info agent
+2025-06-05 20:41:58,396 - logic.info_agent - INFO - Calling Gemini for image analysis
+2025-06-05 20:42:03,892 - logic.info_agent - INFO - Image analysis completed
+2025-06-05 20:42:03,893 - logic.assistant - INFO - Info agent completed
+2025-06-05 20:42:13,030 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-05 20:42:13,030 - logic.assistant - INFO - Calling local edit agent
+2025-06-05 20:42:18,181 - logic.assistant - INFO - Local edit completed
+2025-06-05 20:42:56,301 - logic.assistant - INFO - ImageEditingAssistant initialized with all agents
+2025-06-05 20:43:15,865 - logic.assistant - INFO - Action determined: ActionType.LOCAL_EDIT
+2025-06-05 20:43:15,865 - logic.assistant - INFO - Calling local edit agent
+2025-06-05 20:43:20,790 - logic.assistant - INFO - Local edit completed

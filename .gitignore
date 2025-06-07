@@ -70,8 +70,6 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-sample_image.jpg
-test_images/
 outputs/
 *_edited.*
 *_inpainted.*

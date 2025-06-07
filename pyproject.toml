@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "google-genai>=1.18.0",
+    "gradio>=5.33.0",
     "numpy>=2.2.6",
     "opencv-python>=4.11.0.86",
     "pandas>=2.2.3",
