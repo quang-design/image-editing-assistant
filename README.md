@@ -9,8 +9,6 @@ A modular Python application that uses Google's Gemini API to perform intelligen
 - 🌈 **Global Edits**: Brightness, contrast, saturation, and color temperature adjustments
 - 🎯 **Local Edits**: Object detection and inpainting for targeted modifications
 - 💬 **Chat-based Editing**: Interactive conversational editing sessions
-- 📁 **Modular Design**: Clean separation of concerns with individual agent files
-- 🎨 **Web UI**: Modern Gradio-based interface with image upload, mask drawing, and chat
 
 ## Quick Start
 
@@ -32,26 +30,6 @@ cp .env.example .env
 # .env file:
 GEMINI_API_KEY="your_actual_api_key_here"
 # Gemini API information: https://gemini.readthedocs.io/en/latest/
-```
-
-### 3. Usage
-
-```python
-from assistant import ImageEditingAssistant
-
-# Initialize the assistant
-assistant = ImageEditingAssistant()
-
-# Basic image editing
-result = assistant.process_request("image.jpg", "Make it brighter and more vibrant")
-print(f"Edited image saved: {result['edited_image']}")
-
-# Image analysis
-result = assistant.process_request("image.jpg", "What's in this image?")
-print(result['data']['analysis'])
-
-# Object removal
-result = assistant.process_request("image.jpg", "Remove the person in the background")
 ```
 
 ### Running Scripts
