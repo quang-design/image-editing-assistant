@@ -44,6 +44,31 @@ uv run main.py
 uv run your_script.py
 ```
 
+## Gradio UI Interface
+
+### Usage
+
+Launch the modern Gradio web interface:
+
+```bash
+# Launch the web UI
+uv run launch_ui.py
+
+# Or directly run the UI
+uv run gradio_ui.py
+```
+
+Then open your browser to `http://localhost:7860` to access the interface.
+
+**Web UI Features:**
+
+- 📤 **Image Upload**: Upload images via drag-and-drop, file browser, or webcam
+- 🖌️ **Mask Drawing**: Built-in brush and eraser tools for precise inpainting masks
+- 💬 **Chat Interface**: Real-time conversation with the AI assistant
+- 🔄 **Live Updates**: See edits applied in real-time
+- 📥 **Download**: Save your edited images instantly
+- 🎛️ **Image Tools**: Crop, flip, rotate, and transform images
+
 ## Agent Architecture
 
 ![Agent Architecture Diagram](agent-map.png)
