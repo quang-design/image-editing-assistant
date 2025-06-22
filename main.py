@@ -1,10 +1,17 @@
 import os
 import logging
+import argparse
 from logic.assistant import ImageEditingAssistant
 from logic.router_agent import ActionType
 
 def main():
     """Simple CLI for chatting with the Image Editing Assistant and managing images."""
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Image Editing Assistant')
+    parser.add_argument('--use-gemini-local-edit', action='store_true', 
+                       help='Use Gemini API for local editing instead of Stable Diffusion')
+    args = parser.parse_args()
     
     # Configure logging - only important actions
     logging.basicConfig(
@@ -26,11 +33,15 @@ def main():
     logger.info("Starting Image Editing Assistant")
     
     loaded_image = None
-    # Initialize the assistant
-    assistant = ImageEditingAssistant()
+    # Initialize the assistant with the chosen local edit agent
+    assistant = ImageEditingAssistant(use_gemini_local_edit=args.use_gemini_local_edit)
     
     print("=== Image Editing Assistant ===\n")
-    print("Commands:")
+    if args.use_gemini_local_edit:
+        print("🤖 Using Gemini API for local editing")
+    else:
+        print("🤖 Using Stable Diffusion for local editing")
+    print("\nCommands:")
     print("  load <file_path>   Load an image")
     print("  clear              Clear the loaded image")
     print("  quit/bye           Exit the app")

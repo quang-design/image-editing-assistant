@@ -16,11 +16,16 @@ logger = logging.getLogger(__name__)
 class GradioImageEditingUI:
     """Gradio UI for the Image Editing Assistant"""
     
-    def __init__(self):
-        self.assistant = ImageEditingAssistant()
+    def __init__(self, use_gemini_local_edit: bool = False):
+        self.assistant = ImageEditingAssistant(use_gemini_local_edit=use_gemini_local_edit)
         self.current_image_path: Optional[str] = None
         self.temp_dir = tempfile.mkdtemp()
+        self.use_gemini_local_edit = use_gemini_local_edit
         logger.info(f"Temporary directory created: {self.temp_dir}")
+        if use_gemini_local_edit:
+            logger.info("Gradio UI initialized with Gemini Local Edit Agent")
+        else:
+            logger.info("Gradio UI initialized with Standard Local Edit Agent")
     
     def save_image_from_editor(self, image_data) -> Optional[str]:
         """Save image from ImageEditor to temporary file"""

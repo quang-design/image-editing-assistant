@@ -3,6 +3,7 @@ from logic.router_agent import AgentRouter, ActionType
 from logic.info_agent import ImageInfoAgent
 from logic.global_edit_agent import GlobalEditAgent
 from logic.local_edit_agent import LocalEditAgent
+from logic.gemini_local_edit_agent import GeminiLocalEditAgent
 from logic.models import (
     BoundingBox, EditResponse, LocalEditResponse, 
     ClarifyResponse, ErrorResponse, AssistantResponse
@@ -11,7 +12,7 @@ from logic.models import (
 class ImageEditingAssistant:
     """Main assistant coordinating all agents"""
     
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: str = None, use_gemini_local_edit: bool = False):
         # Initialize logging
         self.logger = logging.getLogger(__name__)
         
@@ -19,7 +20,14 @@ class ImageEditingAssistant:
         self.router = AgentRouter()
         self.info_agent = ImageInfoAgent()
         self.global_agent = GlobalEditAgent()
-        self.local_agent = LocalEditAgent()
+        
+        # Choose local edit agent based on configuration
+        if use_gemini_local_edit:
+            self.local_agent = GeminiLocalEditAgent()
+            self.logger.info("Using Gemini Local Edit Agent")
+        else:
+            self.local_agent = LocalEditAgent()
+            self.logger.info("Using Standard Local Edit Agent")
         
         self.logger.info("ImageEditingAssistant initialized with all agents")
     
@@ -88,9 +96,20 @@ class ImageEditingAssistant:
                 # Process local edit with object detection and inpainting
                 local_result = self.local_agent.process_local_edit(image_path, prompt)
                 
-                # Convert to proper response format
-                detected_objects = [BoundingBox(**obj) for obj in local_result.get("detected_objects", [])]
-                edited_regions = [BoundingBox(**obj) for obj in local_result.get("edited_regions", [])]
+                # Convert to proper response format - handle both dict and BoundingBox objects
+                detected_objects = []
+                for obj in local_result.get("detected_objects", []):
+                    if isinstance(obj, BoundingBox):
+                        detected_objects.append(obj)
+                    else:
+                        detected_objects.append(BoundingBox(**obj))
+
+                edited_regions = []
+                for obj in local_result.get("edited_regions", []):
+                    if isinstance(obj, BoundingBox):
+                        edited_regions.append(obj)
+                    else:
+                        edited_regions.append(BoundingBox(**obj))
                 
                 local_edit_data = LocalEditResponse(
                     edited_image_path=local_result["edited_image_path"],

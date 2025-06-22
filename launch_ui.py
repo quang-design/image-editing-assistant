@@ -6,6 +6,7 @@ Launch script for the Image Editing Assistant Gradio UI
 import os
 import sys
 import logging
+import argparse
 from gradio_ui import GradioImageEditingUI
 
 def setup_logging():
@@ -28,7 +29,17 @@ def setup_logging():
 
 def main():
     """Main function to launch the UI"""
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Image Editing Assistant Gradio UI')
+    parser.add_argument('--use-gemini-local-edit', action='store_true', 
+                       help='Use Gemini API for local editing instead of Stable Diffusion')
+    args = parser.parse_args()
+    
     print("🎨 Starting Image Editing Assistant UI...")
+    if args.use_gemini_local_edit:
+        print("🤖 Using Gemini API for local editing")
+    else:
+        print("🤖 Using Stable Diffusion for local editing")
     
     # Setup logging
     setup_logging()
@@ -40,8 +51,8 @@ def main():
         print("   You can copy .env.example to .env and fill in your values.")
     
     try:
-        # Create and launch UI
-        ui = GradioImageEditingUI()
+        # Create and launch UI with the chosen local edit agent
+        ui = GradioImageEditingUI(use_gemini_local_edit=args.use_gemini_local_edit)
         logger.info("Launching Gradio UI...")
         
         print("\n🚀 Launching Image Editing Assistant UI...")
