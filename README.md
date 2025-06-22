@@ -37,11 +37,8 @@ GEMINI_API_KEY="your_actual_api_key_here"
 This project uses `uv` for Python package management. When running Python scripts or managing dependencies, use `uv run` commands:
 
 ```bash
-# Run the main script
+# Run the CLI interface (without GUI)
 uv run main.py
-
-# Run other scripts
-uv run your_script.py
 ```
 
 ## Gradio UI Interface
@@ -52,10 +49,7 @@ Launch the modern Gradio web interface:
 
 ```bash
 # Launch the web UI
-uv run launch_ui.py
-
-# Or directly run the UI
-uv run gradio_ui.py
+uv run launch_ui.py [--use-gemini-local-edit]
 ```
 
 Then open your browser to `http://localhost:7860` to access the interface.
