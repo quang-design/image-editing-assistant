@@ -51,7 +51,7 @@ def main():
         ui.launch(
             server_name="0.0.0.0",
             server_port=7860,
-            share=False,
+            share=True,
             debug=False,
             show_error=True,
             quiet=False
