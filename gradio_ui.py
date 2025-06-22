@@ -62,17 +62,24 @@ class GradioImageEditingUI:
         if image_data is not None:
             image_path = self.save_image_from_editor(image_data)
             self.current_image_path = image_path
+            logger.info(f"Image saved for processing: {image_path}")
+        else:
+            logger.info("No image data provided, using current image path")
         
         # Add user message to history using messages format
         history = history or []
         history.append({"role": "user", "content": message})
         
         try:
+            logger.info(f"Processing request: '{message}' with image: {image_path or self.current_image_path}")
+            
             # Process request through assistant
             response = self.assistant.process_request(
                 image_path=image_path or self.current_image_path, 
                 prompt=message
             )
+            
+            logger.info(f"Assistant response action: {response.action}")
             
             # Format response based on action type
             assistant_response = self.format_assistant_response(response)
@@ -83,8 +90,13 @@ class GradioImageEditingUI:
             # Check if we have an edited image to replace the current one
             updated_image = self.get_edited_image_from_response(response, image_data)
             
+            if updated_image is not None and not np.array_equal(updated_image, image_data if image_data is not None else np.array([])):
+                logger.info("Image was updated by the assistant")
+            else:
+                logger.info("No image update from assistant")
+            
         except Exception as e:
-            logger.error(f"Error processing message: {e}")
+            logger.error(f"Error processing message: {e}", exc_info=True)
             history.append({"role": "assistant", "content": f"Sorry, I encountered an error: {str(e)}"})
             updated_image = image_data
         

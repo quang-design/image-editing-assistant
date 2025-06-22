@@ -34,12 +34,41 @@ class LocalEditAgent:
         self.processor = Owlv2Processor.from_pretrained("google/owlv2-base-patch16-ensemble")
         self.model = Owlv2ForObjectDetection.from_pretrained("google/owlv2-base-patch16-ensemble")
      
-        self.pipe_pix2pix = StableDiffusionInstructPix2PixPipeline.from_pretrained("timbrooks/instruct-pix2pix", torch_dtype=torch.float16, safety_checker=None)
-        self.pipe_pix2pix.to("cuda")
-        self.pipe_pix2pix.scheduler = EulerAncestralDiscreteScheduler.from_config( self.pipe_pix2pix.scheduler.config)
-  
-        self.pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained("stabilityai/stable-diffusion-xl-refiner-1.0", torch_dtype=torch.float16, variant="fp16", use_safetensors=True)
-        self.pipe = self.pipe.to("cuda")
+        # Check CUDA availability and set device accordingly
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        print(f"Using device: {self.device}")
+        
+        if self.device == "cuda":
+            self.pipe_pix2pix = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+                "timbrooks/instruct-pix2pix", 
+                torch_dtype=torch.float16, 
+                safety_checker=None
+            )
+            self.pipe_pix2pix.to("cuda")
+            self.pipe_pix2pix.scheduler = EulerAncestralDiscreteScheduler.from_config(self.pipe_pix2pix.scheduler.config)
+      
+            self.pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
+                "stabilityai/stable-diffusion-xl-refiner-1.0", 
+                torch_dtype=torch.float16, 
+                variant="fp16", 
+                use_safetensors=True
+            )
+            self.pipe = self.pipe.to("cuda")
+        else:
+            # CPU fallback with float32
+            self.pipe_pix2pix = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+                "timbrooks/instruct-pix2pix", 
+                torch_dtype=torch.float32, 
+                safety_checker=None
+            )
+            self.pipe_pix2pix.scheduler = EulerAncestralDiscreteScheduler.from_config(self.pipe_pix2pix.scheduler.config)
+      
+            self.pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
+                "stabilityai/stable-diffusion-xl-refiner-1.0", 
+                torch_dtype=torch.float32, 
+                use_safetensors=True
+            )
+            print("Warning: Running on CPU. This will be significantly slower than GPU.")
 
     """
     def __init__(self, client=None):
